@@ -1,17 +1,34 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useReducer } from 'react';
 import './App.css';
 
 function App2() {
-  const [orders, setOrders] = useState([]);
+  //  const [orders, setOrders] = useState([]);
   const [channel, setChannel] = useState(false);
   const [currentOrder, setCurrentOrder] = useState('');
 
+
+  function ordersReducer(ordersPrev, action) {
+    switch (action.type) {
+      case 'add':
+        const ordersNext = [...ordersPrev]
+        ordersNext.push(action.payload);
+        return ordersNext;
+      case 'reset':
+        return []
+      default:
+        throw new Error();
+    }
+  }
+
+
+  const [orders, ordersDispatch] = useReducer(ordersReducer, []);
+
   useEffect(() => {
-    setOrders(() => []);
+    ordersDispatch({ type: 'reset' });
     const multiplier = channel ? 100 : 100000000;
     const unSet = setInterval(() => {
       const data = { id: Math.round(Math.random() * multiplier) };
-      setOrders((ordersPrev) => [...ordersPrev, data]);
+      ordersDispatch({ type: 'add', payload: data });
     }, 1000);
     return () => {
       clearInterval(unSet);
