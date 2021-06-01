@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { CurrentOrderContextProvider } from './CurrentOrderContextProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <CurrentOrderContextProvider>
+      <App />
+    </CurrentOrderContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
