@@ -10,9 +10,7 @@ function App2() {
   function ordersReducer(ordersPrev, action) {
     switch (action.type) {
       case 'add':
-        const ordersNext = [...ordersPrev]
-        ordersNext.push(action.payload);
-        return ordersNext;
+        return [...ordersPrev, action.payload];
       case 'reset':
         return []
       default:
@@ -38,10 +36,10 @@ function App2() {
 
   const currentOrderId = currentOrder.id ? currentOrder.id : -1;
   useEffect(() => {
+
     if (orders.length !== 0) {
       const idx = orders.map((el) => el.id).indexOf(currentOrderId);
-      const idx2 = idx === -1 ? 0 : idx;
-      setCurrentOrder(orders[idx2]);
+      if (idx === -1) setCurrentOrder(orders[0]);
     } else {
       setCurrentOrder('');
     }
