@@ -1,33 +1,18 @@
-import './App.css';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react'
+import Child from './Child'
+import { currentOrderContext } from './context'
+
 function App() {
-  const [time, setTime] = useState(new Date().toLocaleString());
-  const unSetRef = useRef(null);
 
-  useEffect(() => {
-    unSetRef.current = setInterval(() => {
-      setTime(() => new Date().toLocaleString());
-    }, 1000);
-    return () => {
-      clearInterval(unSetRef.current);
-      console.log('clear');
-    };
-  }, []);
+  const [currentOrder, setCurrentOrder] = useState('');
 
-  useEffect(() => console.log('Component Update'));
 
   return (
-    <div className='App'>
-      <p>{time}</p>
-      <button
-        onClick={() => {
-          clearInterval(unSetRef.current);
-        }}
-      >
-        Clear
-      </button>
-    </div>
-  );
+    <currentOrderContext.Provider value={{ currentOrder, setCurrentOrder }}>
+      <Child></Child>
+
+    </currentOrderContext.Provider>
+  )
 }
 
-export default App;
+export default App
